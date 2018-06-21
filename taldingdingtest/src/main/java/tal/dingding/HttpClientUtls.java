@@ -9,13 +9,13 @@ import java.net.URLConnection;
 
 /**
  * @Author: 郭佳
- * @ClassName: HttpClient
- * @Description:TODO
- * @Date: 2018-06-21 14:00
+ * @ClassName: HttpClientUtls
+ * @Description:
+ * @Date: 2018-06-21 15:30
  */
-public class HttpClient {
+public class HttpClientUtls {
     // 发送post请求
- public static String sendPost(String url, String param) {
+    public static String sendPost(String url, String param) {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
@@ -59,7 +59,7 @@ public class HttpClient {
         return result;
     }
 
-//发送GET请求
+    //发送GET请求
     public static String sendGet(String url) {
         String result = "";
         BufferedReader in = null;
