@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author: 郭佳
- * @ClassName: Users
+ * @ClassName: User
  * @Description:
  * @Date: 2018-06-21 15:32
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+public class User {
     private  String mobile;
     private  String userId;
     private  String realName;

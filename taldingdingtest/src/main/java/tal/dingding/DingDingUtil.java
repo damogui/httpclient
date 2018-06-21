@@ -21,7 +21,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,8 +29,6 @@ import java.util.*;
  * @Description:TODO
  * @Date: 2018-06-21 15:00
  */
-
-import java.io.IOException;
 
 /**
  * @Description:对接钉钉的工具类
@@ -97,20 +94,20 @@ public class DingDingUtil {
      * @Date:2018/3/20 上午11:19
      * @param departmentId
      */
-    public static List<Users> getDDUsersByDeptId(Long departmentId){
+    public static List<User> getDDUsersByDeptId(Long departmentId){
         String accessToken = getToken(CORPID,CORPSECRET);
         String result = HttpClientUtls.sendGet("https://oapi.dingtalk.com/user/list?access_token="+accessToken+"&department_id=" + departmentId);
         JSONObject json = JSONObject.fromObject(result);
         if (json != null && "0".equals(json.get("errcode").toString())) {
             JSONArray userlist = JSONArray.fromObject((json.get("userlist")));
             if (userlist != null && userlist.size() > 0) {
-                List<Users> userList = new ArrayList<Users>();
+                List<User> userList = new ArrayList<User>();
                 for(int i=0;i<userlist.size();i++){
                     JSONObject user = userlist.getJSONObject(i);
                     String mobile = user.getString("mobile");
                     String userId = user.getString("userid");
                     String name = user.getString("name");
-                    Users users = new Users();
+                    User users = new User();
                     if(!StringUtils.isBlank(mobile)){
                         users.setMobile(mobile);
                         users.setDDUserId(userId);
@@ -132,9 +129,10 @@ public class DingDingUtil {
      * @param accessToken
      * @param departmentId
      */
-    public static void getDDSimpleUsersByDeptId(String accessToken, Long departmentId){
+    public static List<User> getDDSimpleUsersByDeptId(String accessToken, Long departmentId){
         String result = HttpClientUtls.sendGet("https://oapi.dingtalk.com/user/simplelist?access_token="+accessToken+"&department_id=" + departmentId);
         JSONObject json = JSONObject.fromObject(result);
+        List<User> users=new ArrayList<>();
         if (json != null && "0".equals(json.get("errcode").toString())) {
             JSONArray userlist = JSONArray.fromObject((json.get("userlist")));
             if (userlist != null && userlist.size() > 0) {
@@ -142,10 +140,12 @@ public class DingDingUtil {
                     JSONObject user = userlist.getJSONObject(i);
                     String name = user.getString("name");
                     String userId = user.getString("userid");
+                    users.add(new User("0",userId,name,userId));
                     System.out.println(name + ":" + userId);
                 }
             }
         }
+        return  users;
     }
 
     /**
